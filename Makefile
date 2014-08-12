@@ -4,6 +4,9 @@ INCLUDE_DIRS = -I.
 ## Compiler flags; extended in 'debug'/'release' rules
 CXXFLAGS = -Wall
 
+## Linker flags
+# LDFLAGS =
+
 ## Default name for the built executable
 TARGET = generic_executable
 
@@ -34,6 +37,7 @@ release: $(TARGET)
 
 ## Remove built object files and the main executable
 clean:
+	$(info ... deleting built object files and executable  ...)
 	rm *.o $(TARGET)
 
 ## The main executable depends on all object files of all source files
