@@ -1,11 +1,14 @@
 ## Where to look for includes (default is 'here')
 INCLUDE_DIRS = -I. 
 
+## Compiler
+CXX = gcc
+
 ## Compiler flags; extended in 'debug'/'release' rules
-CXXFLAGS = -Wall
+CXXFLAGS = -Wall -Wextra
 
 ## Linker flags
-# LDFLAGS =
+LDFLAGS = -lstdc++
 
 ## Default name for the built executable
 TARGET = generic_executable
@@ -36,21 +39,24 @@ release: CXXFLAGS += -O3
 release: $(TARGET)
 
 ## Remove built object files and the main executable
+## The dash ("-") in front of "rm" tells make to ignore errors. In this
+## case, executing "make clean" does not error-terminate when no object
+## file or executable is found (which would be the usual behaviour).
 clean:
 	$(info ... deleting built object files and executable  ...)
-	rm *.o $(TARGET)
+	-rm *.o $(TARGET)
 
 ## The main executable depends on all object files of all source files
 $(TARGET): $(OBJS)
 	$(info ... linking $@ ...)
-	g++ $^ $(LDFLAGS) -o $@
+	$(CXX) $^ $(LDFLAGS) -o $@
 
 ## Every object file depends on its source and the makefile itself
 %.o: %.cc Makefile
 	$(info ... compiling $@ ...)
-	g++ $(CXXFLAGS) $(INCLUDE_DIRS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $< -o $@
 
 %.o: %.cpp Makefile
 	$(info ... compiling $@ ...)
-	g++ $(CXXFLAGS) $(INCLUDE_DIRS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $< -o $@
 
