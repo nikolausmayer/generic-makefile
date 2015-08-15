@@ -2,13 +2,13 @@
 INCLUDE_DIRS = -I. 
 
 ## Compiler
-CXX = gcc
+CXX ?= g++
 
 ## Compiler flags; extended in 'debug'/'release' rules
-CXXFLAGS = -Wall -Wextra
+CXXFLAGS ?= -W -Wall -Wextra
 
 ## Linker flags
-LDFLAGS = -lstdc++
+LDFLAGS ?= 
 
 ## Default name for the built executable
 TARGET = generic_executable
@@ -52,6 +52,10 @@ $(TARGET): $(OBJS)
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 ## Every object file depends on its source and the makefile itself
+%.o: %.c Makefile
+	$(info ... compiling $@ ...)
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $< -o $@
+
 %.o: %.cc Makefile
 	$(info ... compiling $@ ...)
 	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $< -o $@
